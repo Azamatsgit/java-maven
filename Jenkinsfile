@@ -18,14 +18,13 @@ pipeline {
         stage ("build image"){
                     steps {
                         script {
-                            echo "building the docker image..."
-                            withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')])
+                        echo "building the docker image..."
+                            withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                                 sh 'docker build -t azasdocker/my-repo:jma-2.0 .'
-                                sh "echo $PASS | docker login -u $USER --password-stdin "
+                                sh "echo $PASS | docker login -u $USER --password-stdin"
                                 sh 'docker push azasdocker/my-repo:jma-2.0'
-
+                        }   }
                     }
-              }
 
         }
 
